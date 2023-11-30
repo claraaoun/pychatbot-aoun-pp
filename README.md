@@ -44,6 +44,8 @@ def afficher_noms_president():
 afficher_noms_president()
 
 def conversion_texte(nom_texte):
+    cleaned_folder = "cleaned"
+
     filename = "speeches-20231128/Nomination_" + nom_texte + ".txt"
     with open(filename, 'r') as file:
         content = file.read()
@@ -52,10 +54,8 @@ def conversion_texte(nom_texte):
         if ord(i)>=65 and ord(i)<=90:
             i=chr(ord(i)+32)
         nv_content=nv_content+i
-    nv_filename= "Nomination_" + nom_texte + "minuscule.txt"
+    nv_filename = os.path.join(cleaned_folder, "Nomination_" + nom_texte + "minuscule.txt")
+
     with open(nv_filename,'w') as file:
         file.write(nv_content)
-
-conversion_texte("Chirac2")
-
 
