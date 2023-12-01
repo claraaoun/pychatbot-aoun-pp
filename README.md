@@ -59,3 +59,31 @@ def conversion_texte(nom_texte):
     with open(nv_filename,'w') as file:
         file.write(nv_content)
 
+def supprimer_ponctuation(nom_texte):
+    cleaned_folder = "cleaned"
+
+    filename = "cleaned/Nomination_" + nom_texte + "minuscule.txt"
+    nv_filename = os.path.join(cleaned_folder, "Nomination_" + nom_texte + "cleaned.txt")
+    with open(filename, 'r') as file:
+        contenu = file.read()
+    ponctuations = " .,'-+=?!"
+    nv_contenu= ""
+    for i, char in enumerate(contenu):
+        if char in ponctuations and contenu[i+1] != ' ':
+            nv_contenu += ' '
+        else:
+            nv_contenu += char
+
+    with open(filename, 'w') as file:
+        file.write(nv_contenu)
+
+def compter_mot(contenu):
+    dictionnaire = {}
+    liste_mot = contenu.split(" ")
+    for mot in liste_mot:
+        if mot in dictionnaire:
+            dictionnaire[mot] += 1
+        else:
+            dictionnaire[mot] = 1
+    print(dictionnaire)
+
