@@ -87,3 +87,10 @@ def compter_mot(contenu):
             dictionnaire[mot] = 1
     print(dictionnaire)
 
+        filename = "cleaned/Nomination_" + nom_texte + "minuscule.txt"
+    with open(filename, 'r') as file:
+        contenu = file.read()
+
+compter_mot(contenu)
+
+
