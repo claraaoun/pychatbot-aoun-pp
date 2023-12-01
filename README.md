@@ -94,3 +94,31 @@ def compter_mot(contenu):
 compter_mot(contenu)
 
 
+def calculaler_frequence():
+    with open(nom_texte, 'r') as file:
+        contenu = file.read()
+        dictionnaire = compter_mot(contenu)
+
+        total_mots = sum(dictionnaire.values())
+
+        for mot, nombre_occurrences in dictionnaire.items():
+            frequence = nombre_occurrences / total_mots
+            print(f"Le mot '{mot}' a une fréquence de {frequence:.4f}")
+
+filename = "cleaned/Nomination_Chirac2_minuscule.txt"
+calculer_frequence(filename)
+
+def suprime_punctuation_tous():
+    supprimer_ponctuation("Chirac1")
+    supprimer_ponctuation("Chirac2")
+    supprimer_ponctuation("Giscard dEstaing")
+    supprimer_ponctuation("Hollande")
+    supprimer_ponctuation("Macron")
+    supprimer_ponctuation("Mitterrand1")
+    supprimer_ponctuation("Mitterand2")
+    supprimer_ponctuation("Sarkozy")
+
+
+
+
+
