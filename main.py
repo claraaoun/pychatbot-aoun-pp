@@ -8,8 +8,7 @@ def list_of_files(directory, extension):
 def print_list(file_list):
     for file_name in file_list:
         print(file_name)
-tab=list_of_files("speeches-20231128",".txt")
-print(tab)
+
 def extraction_nom(tab_fichiers):
     tab_nom=[]
     for noms in tab_fichiers:
@@ -18,8 +17,7 @@ def extraction_nom(tab_fichiers):
         tab_nom.append(nom)
 
     return tab_nom
-resultat=extraction_nom(tab)
-print(resultat)
+
 
 def associer_prenom_president(nom_complet):
     if nom_complet=="Chirac1" or nom_complet=="Chirac2":
@@ -40,12 +38,12 @@ def afficher_noms_president():
     L_noms=["Chirac","Giscard dEstaing","Hollande","Macron","Miterrand","Sarkozy"]
     print(L_noms)
 
-afficher_noms_president()
 
-def conversion_texte(nom_texte):
+
+def conversion_texte(dossier, nom_texte):
     cleaned_folder = "cleaned"
 
-    filename = "speeches-20231128/Nomination_" + nom_texte + ".txt"
+    filename = dossier + "/Nomination_" + nom_texte + ".txt"
     with open(filename, 'r') as file:
         content = file.read()
     nv_content=""
@@ -86,13 +84,6 @@ def compter_mot(contenu):
             dictionnaire[mot] = 1
     print(dictionnaire)
 
-        filename = "cleaned/Nomination_" + nom_texte + "minuscule.txt"
-    with open(filename, 'r') as file:
-        contenu = file.read()
-
-compter_mot(contenu)
-
-
 def calculaler_frequence():
     with open(nom_texte, 'r') as file:
         contenu = file.read()
@@ -104,15 +95,5 @@ def calculaler_frequence():
             frequence = nombre_occurrences / total_mots
             print(f"Le mot '{mot}' a une fréquence de {frequence:.4f}")
 
-filename = "cleaned/Nomination_Chirac2_minuscule.txt"
-calculer_frequence(filename)
+        # PAS FINI
 
-def suprime_punctuation_tous():
-    supprimer_ponctuation("Chirac1")
-    supprimer_ponctuation("Chirac2")
-    supprimer_ponctuation("Giscard dEstaing")
-    supprimer_ponctuation("Hollande")
-    supprimer_ponctuation("Macron")
-    supprimer_ponctuation("Mitterrand1")
-    supprimer_ponctuation("Mitterand2")
-    supprimer_ponctuation("Sarkozy")
