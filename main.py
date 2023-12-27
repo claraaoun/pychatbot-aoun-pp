@@ -142,3 +142,58 @@ def calculer_frequence():
 
         return
 
+
+
+
+
+Extraction :
+
+
+import os
+def list_of_files(directory, extension):
+    files_names = []
+    for filename in os.listdir(directory):
+        if filename.endswith(extension):
+            files_names.append(filename)
+    return files_names
+
+def getparam(filenames):
+    params = [""] * len(filenames)
+    for i in range(len(params)):
+        params[i] = filenames[i].split("_")[1].split(".")[0]
+    return params
+
+
+
+
+
+main :
+from extraction import *
+from fonction import *
+
+speeches = "./speeches"
+cleaned = "./cleaned"
+
+filenames = list_of_files(speeches, "txt")
+params = getparam(filenames)
+conversion_texte(params)
+afficher_noms_president(params)
+
+supprimer_ponctuation(params)
+
+filenames = list_of_files(cleaned, "txt")
+# dictionaire {mot : occurence}
+# dict_occurence = compter_mot(cleaned, filenames[1])
+#supprimer_mot_vide(dict_occurence)
+#print(dict_occurence)
+ creer fonction tf dictionaire
+ensemble_des_mots = ensemble_mot(cleaned, filenames)
+
+d_occurence = {}
+for mot in ensemble_des_mots:
+    d_occurence[mot] = []
+    for file in filenames:
+        d_occurence[mot].append(tf(mot, cleaned, file))
+
+print(d_occurence)
+
