@@ -34,57 +34,102 @@ def associer_prenom_president(nom_complet):
         return"François"
 
 
-def afficher_noms_president():
-    L_noms=["Chirac","Giscard dEstaing","Hollande","Macron","Miterrand","Sarkozy"]
-    print(L_noms)
+def afficher_noms_president(L):
+    print(L)
 
 
 
-def conversion_texte(dossier, nom_texte):
+def conversion_texte(L):
     cleaned_folder = "cleaned"
+    for name in L:
+        filename = "speeches/Nomination_" + name + ".txt"
+        with open(filename, 'r', encoding="utf-8") as file:
+            content = file.read()
+        nv_content=""
+        for i in content:
+            if ord(i)>=65 and ord(i)<=90:
+                i=chr(ord(i)+32)
+            nv_content=nv_content+i
+        nv_filename = os.path.join(cleaned_folder, "Nomination_" + name + "minuscule.txt")
 
-    filename = dossier + "/Nomination_" + nom_texte + ".txt"
-    with open(filename, 'r') as file:
-        content = file.read()
-    nv_content=""
-    for i in content:
-        if ord(i)>=65 and ord(i)<=90:
-            i=chr(ord(i)+32)
-        nv_content=nv_content+i
-    nv_filename = os.path.join(cleaned_folder, "Nomination_" + nom_texte + "minuscule.txt")
+        with open(nv_filename,'w', encoding="utf-8") as file:
+            file.write(nv_content)
 
-    with open(nv_filename,'w') as file:
-        file.write(nv_content)
-
-def supprimer_ponctuation(nom_texte):
+def supprimer_ponctuation(L):
     cleaned_folder = "cleaned"
+    for name in L:
+        filename = "cleaned/Nomination_" + name + "minuscule.txt"
+        nv_filename = os.path.join(cleaned_folder, "Nomination_" + name+ "cleaned.txt")
+        with open(filename, 'r', encoding="utf-8") as file:
+            contenu = file.read()
+            ponctuations = ".,'-+=?!"
+            nv_contenu= ""
 
-    filename = "cleaned/Nomination_" + nom_texte + "minuscule.txt"
-    nv_filename = os.path.join(cleaned_folder, "Nomination_" + nom_texte + "cleaned.txt")
-    with open(filename, 'r') as file:
-        contenu = file.read()
-    ponctuations = " .,'-+=?!"
-    nv_contenu= ""
-    for i, char in enumerate(contenu):
-        if char in ponctuations and contenu[i+1] != ' ':
-            nv_contenu += ' '
-        else:
-            nv_contenu += char
+            for i, char in enumerate(contenu):
+                if char == '\n' or char == '':
+                    nv_contenu += ' '
+                elif char in ponctuations and contenu[i+1] != ' ':
+                    nv_contenu += ' '
+                elif char in ponctuations:
+                    nv_contenu += ' '
+                else:
+                    nv_contenu += char
 
-    with open(filename, 'w') as file:
-        file.write(nv_contenu)
+        with open(filename, 'w', encoding="utf-8") as file:
+            file.write(nv_contenu)
 
-def compter_mot(contenu):
+def compter_mot(dossier, file):
     dictionnaire = {}
-    liste_mot = contenu.split(" ")
-    for mot in liste_mot:
-        if mot in dictionnaire:
-            dictionnaire[mot] += 1
-        else:
-            dictionnaire[mot] = 1
-    print(dictionnaire)
+    path = dossier + "/" + file
+    with open(path, "r", encoding="utf-8") as f:
+        contenu = f.read()
+        liste_mot = contenu.split(" ")
+        for mot in liste_mot:
+            if mot in dictionnaire.keys():
+                dictionnaire[mot] += 1
+            else:
+                dictionnaire[mot] = 1
+    return dictionnaire
 
-def calculaler_frequence():
+def occurence(terme, dossier, document):
+    occ = 0
+    path = dossier + "/" + document
+    with open(path, "r", encoding="utf-8") as f:
+        contenu = f.read()
+        liste_mot = contenu.split(" ")
+        for mot in liste_mot:
+            if mot == terme:
+                occ += 1
+        return occ
+
+def tf(terme, dossier, document):
+    occ = 0
+    path = dossier + "/" + document
+    with open(path, "r", encoding="utf-8") as f:
+        contenu = f.read()
+        liste_mot = contenu.split(" ")
+        for mot in liste_mot:
+            if mot == terme:
+                occ += 1
+        return occ / len(liste_mot)
+
+def ensemble_mot(dossier, filenames):
+    ensemble = set()
+    for file in filenames:
+        path = dossier + "/" + file
+        with open(path, "r", encoding="utf-8") as f:
+            contenu = f.read().split()
+            for mot in contenu:
+                ensemble.add(mot)
+    return ensemble
+
+
+
+
+# supprimer le mot vide
+def supprimer_mot_vide(dictionnaire):
+    dictionnaire.pop("")
+def calculer_frequence():
     with open(nom_texte, 'r') as file:
         contenu = file.read()
         dictionnaire = compter_mot(contenu)
@@ -95,5 +140,5 @@ def calculaler_frequence():
             frequence = nombre_occurrences / total_mots
             print(f"Le mot '{mot}' a une fréquence de {frequence:.4f}")
 
-        # PAS FINI
+        return
 
